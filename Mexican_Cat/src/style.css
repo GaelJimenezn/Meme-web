@@ -1,0 +1,130 @@
+:root {
+  --bg1: #0b0f17;
+  --bg2: #101724;
+  --muted: #6b7280;
+}
+
+/* Layout base */
+* {
+  box-sizing: border-box
+}
+
+html,
+body {
+  height: 100%
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
+}
+
+.stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden
+}
+
+/* Fondo: oscuro al inicio -> blanco después de Play */
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(1200px 800px at 15% 10%, #1b2234 0%, transparent 60%),
+    radial-gradient(1000px 700px at 85% 80%, #141b2a 0%, transparent 60%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+  transition: background .25s ease;
+}
+
+body.playing .bg {
+  background: #fff;
+}
+
+/* Model viewer: oculto hasta que hagamos Play y cargue */
+model-viewer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  --poster-color: transparent;
+  --progress-bar-color: transparent;
+  z-index: 1;
+  opacity: 0;
+  /* oculto */
+  transition: opacity .25s ease;
+}
+
+body.playing model-viewer.ready {
+  /* lo mostramos solo cuando ya cargó */
+  opacity: 1;
+}
+
+/* Overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  background: rgba(8, 10, 16, .55);
+  backdrop-filter: blur(6px);
+  transition: opacity .35s ease, visibility .35s ease;
+}
+
+.overlay.hidden {
+  opacity: 0;
+  visibility: hidden
+}
+
+.card {
+  width: min(520px, 92vw);
+  background: #0f172a;
+  color: #e6edf3;
+  border: 1px solid #1f2937;
+  border-radius: 18px;
+  padding: 26px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .35);
+}
+
+.card h1 {
+  margin: 0 0 10px;
+  font-size: clamp(22px, 3.5vw, 28px)
+}
+
+.card p {
+  margin: 0 0 18px;
+  color: var(--muted)
+}
+
+.play {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  padding: 12px 18px;
+  border-radius: 14px;
+  font-weight: 700;
+  color: #0b0f17;
+  background: conic-gradient(from 180deg, #6ee7f9, #8b5cf6, #f472b6, #6ee7f9);
+  position: relative;
+}
+
+.play::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.play:hover {
+  filter: brightness(1.05)
+}
+
+.msg {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #ef4444
+}
